@@ -1,0 +1,55 @@
+.car-tracking-map-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .map {
+    width: 70%;
+    height: 81vh; 
+    border: 1px solid #ccc;
+  }
+  
+  .car-list {
+    width: 30%;
+    height: 75vh; 
+    padding: 25px;
+    scroll-behavior: smooth;
+    overflow-y: auto; 
+  }
+  
+  .car-list h2 {
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .car-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .car-info {
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    transition: all .3s ease;
+    -webkit-transition: all .4s ease;
+  }
+
+  .car-info:hover {
+    transform: scale(1.1);
+  }
+  
+  .car-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .car-details {
+    color: #666;
+  }
+  
+  .car-details div {
+    margin-bottom: 5px;
+  }
