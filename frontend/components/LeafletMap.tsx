@@ -1,25 +1,21 @@
-import React, { useEffect } from 'react';
-import L from 'leaflet';
+import { useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import 'leaflet/dist/leaflet.css';
 
-const LeafletMap: React.FC = () => {
+const LeafletMap = () => {
+  const mapRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    // Create a map instance
-    const map = L.map('map').setView([51.505, -0.09], 13);
-
-    // Add a tile layer
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Add a marker
-    L.marker([51.5, -0.09]).addTo(map)
-      .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-      .openPopup();
+    if (mapRef.current && typeof window !== 'undefined') {
+      const L = require('leaflet');
+      const map = L.map(mapRef.current).setView([51.505, -0.09], 13);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+      }).addTo(map);
+    }
   }, []);
 
-  return (
-    <div id="map" style={{ width: '100%', height: '400px' }} />
-  );
+  return <div ref={mapRef} style={{ height: '400px' }} />;
 };
 
 export default LeafletMap;
