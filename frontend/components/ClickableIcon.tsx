@@ -1,12 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 
 interface ClickableIconProps {
-  position: { x: number; y: number };
+  align: string;
   icon: React.ReactNode; // Accepts any ReactNode as the icon
   onClick: () => void;
 }
 
-const ClickableIcon: React.FC<ClickableIconProps> = ({ position, icon, onClick }) => {
+const ClickableIcon: React.FC<ClickableIconProps> = ({ align, icon, onClick }) => {
   const iconRef = useRef<HTMLDivElement>(null);
 
     const handleClick = () => {
@@ -17,9 +17,6 @@ const ClickableIcon: React.FC<ClickableIconProps> = ({ position, icon, onClick }
     <div
       ref={iconRef}
       style={{
-        
-        left: position.x,
-        top: position.y,
         cursor: 'pointer'
       }}
       onClick={handleClick}>

@@ -32,7 +32,7 @@ const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({ onAdd, index, pre
         <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder={prevName}
           style={{
             marginRight: '5px',
-            minWidth: '10px'
+            width: '100%'
           }}/>
       </div>
       <button type="submit">Update</button>

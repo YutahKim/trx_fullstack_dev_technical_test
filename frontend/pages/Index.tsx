@@ -91,19 +91,21 @@ const Index: React.FC = () => {
         <ul>
             <li key={index}>
               <div className="car-info">
-                <div className="car-name">{car}</div>
-                <ClickableIcon
-                    position={{ x: 10, y: 10 }} // Position of the icon
-                    icon={<FaTrashAlt />} // Custom SVG icon component
-                    onClick={() => deleteVehicle(index)}
-                  />
-                
-
-                <ClickableIcon
-                    position={{ x: 10, y: 10 }} // Position of the icon
-                    icon={<FaPen />} // Custom SVG icon component
-                    onClick={handleUpdateVehicle} // Callback function when the icon is clicked
-                  />
+                <div className='title-container'>
+                  <div className="car-name">{car}</div>
+                  <div className='icons-container'>
+                      <ClickableIcon
+                          align={"right"} // Position of the icon
+                          icon={<FaTrashAlt color= '#4cb69f' />} // Custom SVG icon component
+                          onClick={() => deleteVehicle(index)}
+                        />
+                      <ClickableIcon
+                          align={"right"} // Position of the icon
+                          icon={<FaPen  color= '#4cb69f'/>} // Custom SVG icon component
+                          onClick={handleUpdateVehicle} // Callback function when the icon is clicked
+                        />
+                    </div>
+                </div>
                 {showUpdateForm && <UpdateVehicleForm onAdd={handleUpdateSuccess} index={index} prevName={car} />}
                 <div className="car-details">
                   <div>Speed: 52 km/h</div>
