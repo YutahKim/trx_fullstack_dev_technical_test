@@ -4,14 +4,23 @@ import AddVehicleForm from '../components/AddVehicleForm';
 import UpdateVehicleForm from '../components/UpdateVehicleForm';
 import '@/styles/CarTrackingMap.css';
 import LeafletMap from '../components/LeafletMap';
+import { FaPen } from "react-icons/fa";
+import ClickableIcon from '@/components/ClickableIcon';
+import { FaTrashAlt } from "react-icons/fa";
 
 const Index: React.FC = () => {
-   const [vehicles, setVehicles] = useState<string[]>([]);
-   const [data, setData] = useState<string>('');
+  const [vehicles, setVehicles] = useState<string[]>([]);
+  const [data, setData] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [showAddForm, setShowAddForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
+  const [iconClicked, setIconClicked] = useState(false);
+
+  const handleIconClick = () => {
+    setIconClicked(true);
+    // Handle icon click event here
+  };
 
     useEffect(() => {
     fetchData();
@@ -40,10 +49,11 @@ const Index: React.FC = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
-    const deleteVehicle = async (index: number) => {
-        await axios.delete(`http://localhost:5000/api/vehicles/${index}`);
-        fetchData();
-    };
+  const deleteVehicle = async (index: number) => {
+      console.log(index)
+      await axios.delete(`http://localhost:5000/api/vehicles/${index}`);
+      fetchData();
+  };
 
       const handleAddVehicle = () => {
     setShowAddForm(true);
@@ -82,13 +92,24 @@ const Index: React.FC = () => {
             <li key={index}>
               <div className="car-info">
                 <div className="car-name">{car}</div>
+                <ClickableIcon
+                    position={{ x: 10, y: 10 }} // Position of the icon
+                    icon={<FaTrashAlt />} // Custom SVG icon component
+                    onClick={() => deleteVehicle(index)}
+                  />
+                
+
+                <ClickableIcon
+                    position={{ x: 10, y: 10 }} // Position of the icon
+                    icon={<FaPen />} // Custom SVG icon component
+                    onClick={handleUpdateVehicle} // Callback function when the icon is clicked
+                  />
+                {showUpdateForm && <UpdateVehicleForm onAdd={handleUpdateSuccess} index={index} prevName={car} />}
                 <div className="car-details">
                   <div>Speed: 52 km/h</div>
                   <div>Location: (0.99, 0.9925)</div>
                 </div>
-                <button onClick={() => deleteVehicle(index)}>Delete</button>
-                <button onClick={handleUpdateVehicle}>Edit Vehicle</button>
-                {showUpdateForm && <UpdateVehicleForm onAdd={handleUpdateSuccess} index={index} />}
+                
               </div>
             </li>
         </ul>

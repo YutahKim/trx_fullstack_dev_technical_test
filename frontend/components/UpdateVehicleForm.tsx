@@ -6,11 +6,11 @@ import axios from 'axios';
 interface UpdateVehicleFormProps {
   onAdd: () => void;
   index: number;
+  prevName: string;
 }
 
-const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({ onAdd, index}) => {
+const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({ onAdd, index, prevName}) => {
   const [name, setName] = useState('');
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -24,8 +24,18 @@ const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({ onAdd, index}) =>
 
   return (
     <form onSubmit={handleSubmit}>
-      <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="Enter vehicle name" />
-      <button type="submit">Add Vehicle</button>
+      <div  style={{ display: 'flex' }}>
+        <label style={{
+          marginRight: '5px',
+        }}>
+          Name: </label>
+        <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder={prevName}
+          style={{
+            marginRight: '5px',
+            minWidth: '10px'
+          }}/>
+      </div>
+      <button type="submit">Update</button>
     </form>
   );
 };
