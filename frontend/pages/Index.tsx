@@ -24,7 +24,7 @@ const Index: React.FC = () => {
   }, [currentPage]);
 
   const fetchData = async () => {
-    const response = await axios.get('http://localhost:5000/api/vehicles', {
+    const response = await axios.get('https://trx-fullstack-dev-technical-test-02vb.onrender.com/api/vehicles', {
       params: {
         page: currentPage,
         pageSize: 10,
@@ -35,7 +35,7 @@ const Index: React.FC = () => {
   };
 
   const searchVehicle = async (name: string) => {
-    const response = await axios.get('http://localhost:5000/api/search', {
+    const response = await axios.get('https://trx-fullstack-dev-technical-test-02vb.onrender.com/api/search', {
       params: {
         searchQuery: name
       },
@@ -53,7 +53,7 @@ const Index: React.FC = () => {
   };
 
   const deleteVehicle = async (placa: String) => {
-    await axios.delete(`http://localhost:5000/api/vehicles/${placa}`);
+    await axios.delete(`https://trx-fullstack-dev-technical-test-02vb.onrender.com/api/vehicles/${placa}`);
     fetchData();
   };
 

@@ -35,7 +35,7 @@ const AddVehicleForm: React.FC<AddVehicleFormProps> = ({ onAdd, onClose}) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/vehicles', car);
+      await axios.post('https://trx-fullstack-dev-technical-test-02vb.onrender.com/api/vehicles', car);
       setName('');
       onAdd(); // Call the parent component's callback to trigger a re-fetch of the vehicle list
     } catch (error) {

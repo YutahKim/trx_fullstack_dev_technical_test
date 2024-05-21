@@ -36,7 +36,7 @@ const UpdateVehicleForm: React.FC<UpdateVehicleFormProps> = ({ onAdd, onClose, i
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/vehicles/${car.placa}`,  updatedCar );
+      await axios.put(`https://trx-fullstack-dev-technical-test-02vb.onrender.com/api/vehicles/${car.placa}`,  updatedCar );
       onAdd(); // Call the parent component's callback to trigger a re-fetch of the vehicle list
     } catch (error) {
       console.error('Error adding vehicle:', error);
