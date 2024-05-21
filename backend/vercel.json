@@ -1,7 +1,3 @@
 {
-    "functions": {
-      "api/myRoute": {
-        "runtime": "nodejs14.x"
-      }
-    }
-  }
+    "rewrites": [{"source": "/(.*)", "destination": "/api"}]
+}
