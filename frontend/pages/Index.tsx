@@ -5,134 +5,154 @@ import UpdateVehicleForm from '../components/UpdateVehicleForm';
 import '@/styles/CarTrackingMap.css';
 import LeafletMap from '../components/LeafletMap';
 import { FaPen } from "react-icons/fa";
-import ClickableIcon from '@/components/ClickableIcon';
 import { FaTrashAlt } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
+import ClickableIcon from '@/components/ClickableIcon';
+import Car from '../types/Car';
 
 const Index: React.FC = () => {
-  const [vehicles, setVehicles] = useState<string[]>([]);
-  const [data, setData] = useState<string>('');
+  const [cars, setCars] = useState<Car[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [showUpdateForm, setShowUpdateForm] = useState(false);
-  const [iconClicked, setIconClicked] = useState(false);
+  const [showUpdateFormIndex, setShowUpdateFormIndex] = useState<number | null>(null);
+  const [isAddingVehicle, setIsAddingVehicle] = useState(false);
+  const [selectedCar, setSelectedCar] = useState<Car|null>(null);
 
-  const handleIconClick = () => {
-    setIconClicked(true);
-    // Handle icon click event here
-  };
-
-    useEffect(() => {
+  useEffect(() => {
     fetchData();
   }, [currentPage]);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
+  const fetchData = async () => {
     const response = await axios.get('http://localhost:5000/api/vehicles', {
       params: {
         page: currentPage,
-        pageSize: 10, // Change this to your desired page size
+        pageSize: 10,
       },
     });
-    setVehicles(response.data.vehicles);
+    setCars(response.data.vehicles);
     setTotalPages(response.data.totalPages);
   };
 
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
+  const searchVehicle = async (name: string) => {
+    const response = await axios.get('http://localhost:5000/api/search', {
+      params: {
+        searchQuery: name
+      },
+    });
+    setCars(response.data);
+    setTotalPages(response.data.totalPages);
   };
 
   const handlePrevPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
   };
 
-  const deleteVehicle = async (index: number) => {
-      console.log(index)
-      await axios.delete(`http://localhost:5000/api/vehicles/${index}`);
-      fetchData();
+  const handleNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
   };
 
-      const handleAddVehicle = () => {
-    setShowAddForm(true);
+  const deleteVehicle = async (placa: String) => {
+    await axios.delete(`http://localhost:5000/api/vehicles/${placa}`);
+    fetchData();
+  };
+
+  const handleAddVehicle = () => {
+    setShowAddForm((prev) => !prev);
+    setIsAddingVehicle((prev) => !prev);
   };
 
   const handleAddFormClose = () => {
-    setShowAddForm(false);
+    setShowAddForm((prev) => !prev);
+    setIsAddingVehicle((prev) => !prev);
   };
 
   const handleAddSuccess = () => {
     setShowAddForm(false);
     fetchData();
-};
-      const handleUpdateVehicle = () => {
-    setShowUpdateForm(true);
+  };
+
+  const handleUpdateVehicle = (index: number) => {
+    setShowUpdateFormIndex((prevIndex) => (prevIndex === index ? null : index));
   };
 
   const handleUpdateFormClose = () => {
-    setShowUpdateForm(false);
+    setShowUpdateFormIndex(null);
   };
 
   const handleUpdateSuccess = () => {
-    setShowUpdateForm(false);
+    setShowUpdateFormIndex(null);
     fetchData();
-};
+  };
+  
+  const handleCLickCar = (car:Car) => {
+    setSelectedCar(car);
+    
+  };
 
-    return (
-        <div>
-        <h1>Welcome to Car Tracker!</h1>
-        <div className="car-tracking-map-container">
-      <div id="map" className="map"><LeafletMap /></div>
-      <div className="car-list">
-        <h2>Car List</h2>
-        {vehicles.map((car,index) => (
-        <ul>
-            <li key={index}>
-              <div className="car-info">
-                <div className='title-container'>
-                  <div className="car-name">{car}</div>
-                  <div className='icons-container'>
-                      <ClickableIcon
-                          align={"right"} // Position of the icon
-                          icon={<FaTrashAlt color= '#4cb69f' />} // Custom SVG icon component
-                          onClick={() => deleteVehicle(index)}
+  return (
+    <div>
+      <div className="car-tracking-map-container">
+        {cars.length > 0 && <div id="map" className="map"><LeafletMap cars={cars} selectedCar={selectedCar}/></div>}
+        <div className='right-panel'>
+          <div className='title-container'>
+            <h2>Search cars</h2>
+            <ClickableIcon
+              align={"right"}
+              icon={<FaSearch color='black' />}
+              onClick={() => searchVehicle('Pac')}
+            />
+          </div>
+          <div className={isAddingVehicle ? 'car-list-minimized' : 'car-list'}>
+            <ul>
+              {cars.map((car, index) => (
+                <li key={index} onClick={()=>handleCLickCar(car)}>
+                  <div className="car-info">
+                    <div className='title-container'>
+                      <div className="car-name">{car.MODEL}</div>
+                      <div className='icons-container'>
+                        <ClickableIcon
+                          align={"right"}
+                          icon={<FaTrashAlt color='#4cb69f' />}
+                          onClick={() => deleteVehicle(car.placa)}
                         />
-                      <ClickableIcon
-                          align={"right"} // Position of the icon
-                          icon={<FaPen  color= '#4cb69f'/>} // Custom SVG icon component
-                          onClick={handleUpdateVehicle} // Callback function when the icon is clicked
+                        <ClickableIcon
+                          align={"right"}
+                          icon={<FaPen color='#4cb69f' />}
+                          onClick={() => handleUpdateVehicle(index)}
                         />
+                      </div>
                     </div>
-                </div>
-                {showUpdateForm && <UpdateVehicleForm onAdd={handleUpdateSuccess} index={index} prevName={car} />}
-                <div className="car-details">
-                  <div>Speed: 52 km/h</div>
-                  <div>Location: (0.99, 0.9925)</div>
-                </div>
-                
-              </div>
-            </li>
-        </ul>
-          ))}
-          
-          <div>
-        <button onClick={handlePrevPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>Page {currentPage} of {totalPages}</span>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-          Next
-        </button>
-      </div>
-        <button onClick={handleAddVehicle}>Add Vehicle</button>
-      {showAddForm && <AddVehicleForm onAdd={handleAddSuccess} />}
+                    {showUpdateFormIndex === index && <UpdateVehicleForm onAdd={handleUpdateSuccess} onClose={handleUpdateFormClose} index={index} car={car}   />}
+                    <div className="car-details">
+                      <div>{car.BRAND}</div>
+                      <div>plate: {car.placa}</div>
+                      <div>econ: {car.numeroEconomico}</div>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className='bottom-box'>
+          <div style={{marginBottom:"10px"}}>
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>Page {currentPage} of {totalPages}</span>
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+              Next
+            </button>
+          </div>
+          <div className={isAddingVehicle ? 'title-container-expanded' : 'title-container'}>
+            {!showAddForm && <button onClick={handleAddVehicle} >Add Vehicle</button>}
+            {showAddForm && <AddVehicleForm onAdd={handleAddSuccess} onClose={handleAddFormClose}/>}
+          </div>
+          </div>
+        </div>
       </div>
     </div>
-      </div>
-        
-    );
-    };
+  );
+};
 
 export default Index;

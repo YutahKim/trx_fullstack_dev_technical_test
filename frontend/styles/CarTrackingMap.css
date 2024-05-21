@@ -1,36 +1,94 @@
+body {
+  background: linear-gradient(to left, #4cb69f, #34344f); /* Gradient from light green to dark blue */
+  color: white; /* White text color */
+}
 .car-tracking-map-container {
     display: flex;
-    justify-content: space-between;
-    padding: 20px;
+    padding: 8vh 3vh 3vh 3vh;
   }
   
+  .right-panel{
+    width: 40%;
+    height: 82vh; 
+    padding: 0% 0% 0% 0%;
+    border-radius: 20px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+
   .map {
-    width: 70%;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    width: 100%;
     height: 81vh; 
     border: 1px solid #ccc;
+    border-radius: 20px;
+    background: linear-gradient(to right, #4cb69f, #34344f);
   }
+
+/* Customizing Leaflet zoom control */
+.leaflet-control-zoom {
+  background-color: #4cb69f; /* Light green color */
+  border-radius: 5px;
+}
+
+/* Styling the plus and minus buttons */
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: #34344f; /* Dark blue color */
+  color: white; /* White text color */
+  border-radius: 5px;
+}
+
+/* Adjusting the size of the buttons */
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  width: 30px;
+  height: 30px;
+  line-height: 30px; /* Centering text vertically */
+  font-size: 16px;
+}
+
+/* Styling hover and active states */
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover,
+.leaflet-control-zoom-in:active,
+.leaflet-control-zoom-out:active {
+  background-color: #2c2c3f; /* Darker blue color on hover/active */
+}  
   
   .car-list {
-    width: 30%;
-    height: 75vh; 
-    padding: 25px;
+    padding: 0px 15px 0px 15px;
+    min-height: 37vh;
+    max-height: 72vh;
     scroll-behavior: smooth;
+    scrollbar-width: thin;
     overflow-y: auto; 
+    scrollbar-color:  #4cb69f rgb(0, 0, 0);
+    scrollbar-width: thin;
+    transition: all .3s ease;
+    -webkit-transition: all .4s ease;
   }
-  
-  .car-list h2 {
-    margin-bottom: 10px;
-    color: #333;
+
+  .car-list-minimized {
+    padding: 15px;
+    min-height: 30vh;
+    max-height: 35vh;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    overflow-y: auto; 
+    scrollbar-color:  #4cb69f rgb(0, 0, 0);
+    scrollbar-width: thin;
+    transition: all .3s ease;
+    -webkit-transition: all .4s ease;
   }
-  
-  .car-list ul {
+    
+  .car-list ul, .car-list-minimized ul {
     list-style-type: none;
     padding: 0;
   }
   
   .car-info {
-    background-color: #5c5c5c;
-    color: #f5f5f5;
+    background-color: #34344f;
+    color: #000000;
     border-radius: 5px;
     padding: 10px;
     margin-bottom: 10px;
@@ -44,11 +102,11 @@
   
   .car-name {
     font-weight: bold;
-    color: #f5f5f5 ;
+    color: #e7f4f6 ;
   }
   
   .car-details {
-    color: #f5f5f5 ;
+    color: #e7f4f6 ;
   }
   
   .car-details div {
@@ -58,12 +116,49 @@
 .title-container{
   display:flex;
   width: 100%;
-  
+  height: fit-content;
+}
+
+.title-container h2{
+  margin: 0px 0px 0px 10%;
 }
 
 .icons-container{
   align-self: flex-end;
   display: flex;
   margin-left: auto;
-  
+  transition: all .3s ease;
+    -webkit-transition: all .4s ease;
+}
+
+.title-container-expanded {
+  top: 86vh;
+  left: 82vh;
+  width: 100%;
+  transition: all .3s ease;
+    -webkit-transition: all .4s ease;
+}
+
+.bottom-box{
+  padding: 10px 15px 15px 10%;
+  align-content: center;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.car-inputs-label {
+  color: white;
+  margin-right: 0px;
+  width: 150px; /* Adjust width as needed */
+}
+
+.car-inputs {
+  border-radius: 10px;
+  flex: 1;
+  padding: 2px 2px 2px 10px;
+  width: 100%;
 }

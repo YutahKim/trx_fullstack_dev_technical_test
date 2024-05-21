@@ -17,6 +17,8 @@ const ClickableIcon: React.FC<ClickableIconProps> = ({ align, icon, onClick }) =
     <div
       ref={iconRef}
       style={{
+        marginLeft: '10px',
+        marginTop: '5px',
         cursor: 'pointer'
       }}
       onClick={handleClick}>
