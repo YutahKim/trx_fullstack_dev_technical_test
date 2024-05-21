@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
       "esModuleInterop": true,
+      "typeRoots": ["node_modules/@types", "types"],
       "target": "es6",
       "module": "commonjs",
       "outDir": "./src/dist",

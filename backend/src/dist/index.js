@@ -176,3 +176,4 @@ app.post('/api/updateVehicle/:id', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+exports.default = app;
