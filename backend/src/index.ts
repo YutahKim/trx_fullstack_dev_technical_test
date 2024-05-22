@@ -10,7 +10,8 @@ const mongoose = require('mongoose');
 // Connect to MongoDB
 mongoose.connect('mongodb+srv://yutahKim:wgWYABBvFvJDfZUW@pproy.vs88k8u.mongodb.net/?retryWrites=true&w=majority&appName=Pproy', { useNewUrlParser: true, useUnifiedTopology: true });
 
-app.use(cors({ origin: 'http://localhost:3000' }));
+//app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'https://trx-fullstack-dev-technical-test-fstxps3rg-yutahkims-projects.vercel.app' }));
 
 app.get('/', (req: Request, res: Response) => {
     res.send('Hello, World!');
